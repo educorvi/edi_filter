@@ -1,14 +1,40 @@
 [
-    {
-        "title":"Alter",
-        "options": [
-            16, 17, 18, 19
-        ]
-    },
-    {
-        "title":"Testauswahl",
-        "options":[
-            "Test1", "Test2", "Test3"
-        ]
-    }
+  {
+    "title": "Hersteller",
+    "options": [
+      {
+        "key": "dc-druck-chemie",
+        "value": "DC Druck Chemie"
+      },
+      {
+        "key": "test1",
+        "value": "Test1"
+      },
+      {
+        "key": "test2",
+        "value": "Test2"
+      },
+      {
+        "key": "test3",
+        "value": "Test3"
+      },
+      {
+        "key": "test4",
+        "value": "Test4"
+      }
+    ]
+  },
+  {
+    "title": "Verdampfungsfaktor",
+    "options": [
+      {
+        "key": 1.0,
+        "value": 1.0
+      },
+      {
+        "key": 2.0,
+        "value": 2.0
+      }
+    ]
+  }
 ]

@@ -1,0 +1,28 @@
+[
+  {
+    "title": "Hersteller",
+    "options": [
+      {
+        "key": "dc-druck-chemie",
+        "value": "DC Druck Chemie"
+      },
+      {
+        "key": "fujii",
+        "value": "Fujii Film"
+      }
+    ]
+  },
+  {
+    "title": "Verdampfungsfaktor",
+    "options": [
+      {
+        "key": 1.0,
+        "value": 1.0
+      },
+      {
+        "key": 2.0,
+        "value": 2.0
+      }
+    ]
+  }
+]

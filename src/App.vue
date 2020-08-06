@@ -1,5 +1,6 @@
 <template>
-  <div id="app" class="m-5">
+  <div id="app">
+    <div v-if="!err">
    <b-card no-body>
      <b-tabs v-model="tabIndex" card fill>
        <filter-component @optionsChange="change" v-for="filter in filters" :filter="filter" :key="filter.title" ref="filtercomponents"/>
@@ -10,17 +11,18 @@
    </b-card>
     <div class="mt-2">
       <b-button class="float-left" @click="removeAllFilters">Alle Filter entfernen</b-button>
-      <b-button variant="primary" class="float-right" @click="setCookie">Suche aktualisieren</b-button>
+<!--      <b-button variant="primary" class="float-right" @click="setCookie">Suche aktualisieren</b-button>-->
     </div>
-
-
+    </div>
+    <b-alert v-else show variant="danger">Filter konnten nicht geladen werden</b-alert>
   </div>
 </template>
 
 <script>
-import beispiel from "../Beispiel.json";
 import FilterComponent from "@/components/filterComponent";
 import FilterView from "@/components/filterView";
+import axios from "axios"
+
 export default {
   name: 'App',
   components: {
@@ -31,13 +33,12 @@ export default {
   data() {
     return {
       tabIndex: 0,
-      filterValues: {}
+      filterValues: {},
+      filters: [],
+      err: null
     }
   },
   computed: {
-    filters() {
-      return beispiel;
-    },
     appliedFilters() {
       let newFilters = [];
       for (let filter of this.filters) {
@@ -74,6 +75,17 @@ export default {
     for (let filter of filters) {
       let i = this.filters.findIndex(obj => obj.title === filter.title);
       this.$refs.filtercomponents[i].setSelected(filter.options);
+    }
+  },
+  created() {
+    axios.get("options-view").then(res => this.filters = res.data).catch(err => this.err = err);
+  },
+  watch: {
+    filterValues: {
+      deep: true,
+      handler() {
+        this.setCookie()
+      },
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div :id="'div_for_'+filter.title" @click="function() {$emit('select', filter.title)}"
-       class="p-2 mb-3" style="border-radius: 12px; background-color: #0275d8; color: white; cursor: pointer; max-width: 172px"
+       class="p-2 mb-3 bg-primary" style="border-radius: 12px; color: white; cursor: pointer; max-width: 172px"
        v-if="filter.options.length">
     <!--    <b-row >-->
     <!--      <b-col cols="9">-->

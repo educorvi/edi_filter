@@ -1,0 +1,14 @@
+[
+    {
+        "title":"Alter",
+        "options": [
+            16, 17, 18, 19
+        ]
+    },
+    {
+        "title":"Testauswahl",
+        "options":[
+            "Test1", "Test2", "Test3"
+        ]
+    }
+]

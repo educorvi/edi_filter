@@ -36,7 +36,8 @@ export default {
       tabIndex: 0,
       filterValues: {},
       filters: [],
-      err: null
+      err: null,
+      id: ""
     }
   },
   computed: {
@@ -44,6 +45,7 @@ export default {
       let newFilters = [];
       for (let filter of this.filters) {
         const tp = {
+          id: filter.id,
           title: filter.title,
           options: filter.options.filter(option => this.filterValues[filter.title] ? this.filterValues[filter.title][filter.options.findIndex(obj => obj.key === option.key)] : false)
         };
@@ -62,20 +64,21 @@ export default {
       this.tabIndex = this.filters.findIndex(obj => obj.title === sec);
     },
     setCookie() {
-      this.$cookie.set('filters', JSON.stringify(this.appliedFilters));
+      this.$cookie.set(this.id+'_filters', JSON.stringify(this.appliedFilters));
     },
     removeAllFilters() {
       for (let item of this.$refs.filtercomponents) {
         item.setSelected([]);
       }
-      this.$cookie.set('filters', JSON.stringify([]));
+      this.$cookie.set(this.id+'_filters', JSON.stringify([]));
     }
   },
   mounted() {
     axios.get("options-view").then(res => {
-      this.filters = res.data;
+      this.filters = res.data.optionen;
+      this.id = res.data.context;
       this.$nextTick(function () {
-        const filters = JSON.parse(this.$cookie.get('filters'));
+        const filters = JSON.parse(this.$cookie.get(this.id+'_filters'));
         if (filters) {
           for (let filter of filters) {
             let i = this.filters.findIndex(obj => obj.title === filter.title);

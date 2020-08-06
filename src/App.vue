@@ -66,7 +66,7 @@ export default {
       for (let item of this.$refs.filtercomponents) {
         item.setSelected([]);
       }
-      this.$cookie.set('filters', JSON.stringify(this.appliedFilters));
+      this.$cookie.set('filters', JSON.stringify([]));
     }
   },
   mounted() {

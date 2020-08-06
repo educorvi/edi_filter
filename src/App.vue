@@ -1,20 +1,21 @@
 <template>
   <div id="app">
     <div v-if="!err">
-   <b-card no-body>
-     <b-tabs v-model="tabIndex" card fill>
-       <filter-component @optionsChange="change" v-for="filter in filters" :filter="filter" :key="filter.title" ref="filtercomponents"/>
-     </b-tabs>
-     <b-card-footer v-if="appliedFilters.length">
-       <filter-view @select="select" :applied-filters="appliedFilters"/>
-     </b-card-footer>
-   </b-card>
-    <div class="mt-2">
-      <b-button class="float-left" @click="removeAllFilters">Alle Filter entfernen</b-button>
-<!--      <b-button variant="primary" class="float-right" @click="setCookie">Suche aktualisieren</b-button>-->
+      <b-card no-body>
+        <b-tabs card fill v-model="tabIndex">
+          <filter-component :filter="filter" :key="filter.title" @optionsChange="change" ref="filtercomponents"
+                            v-for="filter in filters"/>
+        </b-tabs>
+        <b-card-footer v-if="appliedFilters.length">
+          <filter-view :applied-filters="appliedFilters" @select="select"/>
+        </b-card-footer>
+      </b-card>
+      <div class="mt-2">
+        <b-button @click="removeAllFilters" class="float-left">Alle Filter entfernen</b-button>
+        <!--      <b-button variant="primary" class="float-right" @click="setCookie">Suche aktualisieren</b-button>-->
+      </div>
     </div>
-    </div>
-    <b-alert v-else show variant="danger">Filter konnten nicht geladen werden</b-alert>
+    <b-alert show v-else variant="danger">Filter konnten nicht geladen werden</b-alert>
   </div>
 </template>
 
@@ -71,14 +72,19 @@ export default {
     }
   },
   mounted() {
-    const filters = JSON.parse(this.$cookie.get('filters'));
-    for (let filter of filters) {
-      let i = this.filters.findIndex(obj => obj.title === filter.title);
-      this.$refs.filtercomponents[i].setSelected(filter.options);
-    }
-  },
-  created() {
-    axios.get("options-view").then(res => this.filters = res.data).catch(err => this.err = err);
+    axios.get("options-view").then(res => {
+      this.filters = res.data;
+      this.$nextTick(function () {
+        const filters = JSON.parse(this.$cookie.get('filters'));
+        if (filters) {
+          for (let filter of filters) {
+            let i = this.filters.findIndex(obj => obj.title === filter.title);
+            this.$refs.filtercomponents[i].setSelected(filter.options);
+          }
+        }
+      });
+
+    })
   },
   watch: {
     filterValues: {

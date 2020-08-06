@@ -11,7 +11,7 @@
     <!--      </b-col>-->
     <!--    </b-row>-->
     <h6 class="m-0 mb-1">{{ filter.title }}:</h6>
-    <p>{{filter.options.map(obj => obj.value).join(", ") }}</p>
+    <p class="mb-0">{{filter.options.map(obj => obj.value).join(", ") }}</p>
   </div>
 </template>
 

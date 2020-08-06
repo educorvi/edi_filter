@@ -4,11 +4,12 @@
      <b-tabs v-model="tabIndex" card fill>
        <filter-component @optionsChange="change" v-for="filter in filters" :filter="filter" :key="filter.title" ref="filtercomponents"/>
      </b-tabs>
-     <b-card-footer>
+     <b-card-footer v-if="appliedFilters.length">
        <filter-view @select="select" :applied-filters="appliedFilters"/>
      </b-card-footer>
    </b-card>
     <div class="mt-2">
+      <b-button class="float-left" @click="removeAllFilters">Alle Filter entfernen</b-button>
       <b-button variant="primary" class="float-right" @click="setCookie">Suche aktualisieren</b-button>
     </div>
 
@@ -40,7 +41,6 @@ export default {
     appliedFilters() {
       let newFilters = [];
       for (let filter of this.filters) {
-        console.log(filter)
         const tp = {
           title: filter.title,
           options: filter.options.filter(option => this.filterValues[filter.title] ? this.filterValues[filter.title][filter.options.findIndex(obj => obj.key === option.key)] : false)
@@ -61,9 +61,20 @@ export default {
     },
     setCookie() {
       this.$cookie.set('filters', JSON.stringify(this.appliedFilters));
+    },
+    removeAllFilters() {
+      for (let item of this.$refs.filtercomponents) {
+        item.setSelected([]);
+      }
+      this.$cookie.set('filters', JSON.stringify(this.appliedFilters));
     }
   },
-  created() {
+  mounted() {
+    const filters = JSON.parse(this.$cookie.get('filters'));
+    for (let filter of filters) {
+      let i = this.filters.findIndex(obj => obj.title === filter.title);
+      this.$refs.filtercomponents[i].setSelected(filter.options);
+    }
   }
 }
 </script>

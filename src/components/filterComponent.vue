@@ -4,7 +4,7 @@
       <b-checkbox :key="option.key" v-for="(option, index) in filter.options" v-model="optionsSelected[index]">
         {{ option.value }}
       </b-checkbox>
-      <b-button @click="unselectAll" :disabled="!(selected>0)">Alle Löschen</b-button>
+      <b-button @click="unselectAll" :disabled="!(selected>0)">Filter entfernen</b-button>
     </div>
   </b-tab>
 </template>
@@ -40,6 +40,12 @@ export default {
   methods: {
     unselectAll() {
       this.optionsSelected = [];
+    },
+    setSelected(options) {
+      this.optionsSelected = [];
+      for (let option of options) {
+        this.$set(this.optionsSelected,this.filter.options.findIndex(obj => obj.key === option.key), true);
+      }
     }
   },
 }

@@ -8,6 +8,9 @@
        <filter-view @select="select" :applied-filters="appliedFilters"/>
      </b-card-footer>
    </b-card>
+    <div class="mt-2">
+      <b-button variant="primary" class="float-right" @click="setCookie">Suche aktualisieren</b-button>
+    </div>
 
 
   </div>
@@ -38,10 +41,13 @@ export default {
       let newFilters = [];
       for (let filter of this.filters) {
         console.log(filter)
-        newFilters.push({
+        const tp = {
           title: filter.title,
-          options: filter.options.filter(option => this.filterValues[filter.title]?this.filterValues[filter.title][filter.options.findIndex(obj => obj.key === option.key)]:false)
-        })
+          options: filter.options.filter(option => this.filterValues[filter.title] ? this.filterValues[filter.title][filter.options.findIndex(obj => obj.key === option.key)] : false)
+        };
+        if (tp.options.length > 0) {
+          newFilters.push(tp)
+        }
       }
       return newFilters;
     }
@@ -51,10 +57,14 @@ export default {
       this.$set(this.filterValues, e.title, e.val);
     },
     select(sec) {
-      console.log(this.filters.findIndex(obj => obj.title === sec))
       this.tabIndex = this.filters.findIndex(obj => obj.title === sec);
+    },
+    setCookie() {
+      this.$cookie.set('filters', JSON.stringify(this.appliedFilters));
     }
   },
+  created() {
+  }
 }
 </script>
 

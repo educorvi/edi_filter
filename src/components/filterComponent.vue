@@ -4,7 +4,7 @@
       <b-checkbox :key="option.key" v-for="(option, index) in filter.options" v-model="optionsSelected[index]">
         {{ option.value }}
       </b-checkbox>
-      <b-button @click="unselectAll" v-if="selected>0">Alle Löschen</b-button>
+      <b-button @click="unselectAll" :disabled="!(selected>0)">Alle Löschen</b-button>
     </div>
   </b-tab>
 </template>

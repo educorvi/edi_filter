@@ -7,6 +7,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
+
+import VueCookie from "vue-cookie";
+Vue.use(VueCookie);
+
 Vue.config.productionTip = false
 
 new Vue({

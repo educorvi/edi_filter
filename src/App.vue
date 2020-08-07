@@ -74,7 +74,7 @@ export default {
     }
   },
   mounted() {
-    axios.get("options-view").then(res => {
+    axios.get("./options-view").then(res => {
       this.filters = res.data.optionen;
       this.id = res.data.context;
       this.$nextTick(function () {
